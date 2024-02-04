@@ -32,7 +32,179 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
+}
+
+.circle {
+  border-radius: 50%;
+  /* background-color: #0276FD; */
+  border: 12px solid #FFFFFF;
+  color: black;
+  background-color: #FFFFFF;
+  height: 80px;
+  width: 80px;
+  text-align: center;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* font-size: 48px; */
+  cursor: pointer;
+}
+
+.circle:hover {
+  background-color: #ffd4a1;
+}
+
+.rankCircle {
+  /* margin-top: 10px; */
+  border-radius: 50%;
+  background-color: #FFFFFF;
+  border: 2px solid darkorange;
+  color: black;
+  /* background-color: #FFFFFF; */
+  height: 50px;
+  width: 50px;
+  text-align: center;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* font-size: 48px; */
+  cursor: pointer;
+}
+
+.rankCircle-selected {
+  border-radius: 50%;
+  background-color: darkorange;
+  border: 2px solid darkorange;
+  color: black;
+
+  height: 50px;
+  width: 50px;
+  text-align: center;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* font-size: 48px; */
+  cursor: pointer;
+}
+
+
+.currentWord {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 2px solid black;
+  width: 50%;
+  margin: auto;
+  height: 60px;
+}
+
+.submittedWords {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+}
+
+.circle-selected {
+  border-radius: 50%;
+  background-color: #0276FD;
+  border: 12px solid #0276FD;
+  color: black;
+  background-color: #FFFFFF;
+  height: 80px;
+  width: 80px;
+  text-align: center;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* font-size: 48px; */
+  cursor: pointer;
+}
+
+#center-letter {
+  color: darkorange;
+}
+
+.score {
+  display: flex;
+  color: darkorange;
+  padding: 0px;
+  height: 50px;
+  justify-content: center;
+  align-items: center;
+}
+
+.rank {
+  display: flex;
+  padding: 0px;
+  font-weight: bold;
+  justify-content: center;
+  align-items: center;
+}
+
+button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 15px 0;
+  width: 5.5em;
+  min-width: 5.5em;
+  height: 3em;
+  background-color: white;
+  font-size: 1em;
+  margin: 0 8px;
+  color: black;
+  border: 1px solid darkgray;
+  border-radius: 2.5em;
+  letter-spacing: 0.01em;
+  user-select: none;
+}
+
+button:hover {
+  border: 1px solid black;
+}
+
+button:active {
+  background-color: #ffd4a1;
+}
+
+:focus {
+  outline: none !important;
+}
+
+.allSubmittedWordsContainer {
+  display: flex;
+  height: 340px;
+  width: 50%;
+  margin: auto;
+  padding-top: 10px;
+}
+
+.allSubmittedWords {
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  grid-template-rows: 20px 20px 20px 20px 20px 20px 20px 20px 20px 20px 20px 20px 20px 20px 20px;
+  ;
 }
