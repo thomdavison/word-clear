@@ -1,13 +1,14 @@
-import wordBank from "./data/words_alpha.txt";
+import eightLetterWords from "./data/8_letter_words.txt";
 
-export const generateWordSet = async () => {
-    let wordSet;
-    let wordArr
-    await fetch(wordBank)
+export const generate8LetterWords = async () => {
+    let words = []
+
+
+    await fetch(eightLetterWords)
         .then((response) => response.text())
         .then((result) => {
-            wordArr = result.split("\n");
-            wordSet = new Set(wordArr);
+            words = result.split("\n");
+
         });
-    return { wordSet, wordArr };
-};
+    return { words };
+}; 
