@@ -12,6 +12,9 @@ function App() {
   const [gameState, setGameState] = useState("board")
   const [selectedLetters, setSelectedLetters] = useState([])
 
+  let currentDate = new Date().toJSON().slice(0, 10);
+  const rand = require('random-seed').create(currentDate);
+
   const handleTileClick = (index) => {
 
     if (selectedLetters.includes(index)) {
@@ -31,21 +34,22 @@ function App() {
 
   useEffect(() => {
     generate8LetterWords().then((w) => {
-      let word1 = w.words[Math.floor(Math.random() * w.words.length)]
+      let word1 = w.words[rand(w.words.length)]
+      let word2 = w.words[rand(w.words.length)]
       console.log(word1)
-      let word2 = w.words[Math.floor(Math.random() * w.words.length)]
       console.log(word2)
+
       let word = word1 + word2
 
       word1 = word1.toUpperCase()
       word2 = word2.toUpperCase()
-      var shuffledWord = shuffleFunc(word)
-      var words = [word1, word2]
+      let shuffledWord = shuffleFunc(word)
+      let words = [word1, word2]
 
-      var pickedLetters = []
+      let pickedLetters = []
 
       for (var i = 0; i < shuffledWord.length; i++) {
-        var letter = shuffledWord[i].toUpperCase()
+        let letter = shuffledWord[i].toUpperCase()
         pickedLetters.push(letter)
       }
 
@@ -92,6 +96,18 @@ function App() {
     setSelectedLetters(newletters)
   }
 
+  const shuffle = () => {
+
+    var centerLetter = letters[4]
+
+    let shuffled = letters
+      .map(value => ({ value, sort: Math.random() }))
+      .sort((a, b) => a.sort - b.sort)
+      .map(({ value }) => value)
+
+    setLetters(shuffled)
+  }
+
 
   if (gameState === "" || gameState === "board") {
     return (
@@ -100,6 +116,7 @@ function App() {
           letters={letters}
           currentWord={currentWord}
           onTileClick={handleTileClick}
+          shuffle={shuffle}
           submit={submit}
           submittedWords={submittedWords}
           deleteFunc={deleteFunc}

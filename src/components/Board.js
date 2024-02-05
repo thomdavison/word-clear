@@ -1,6 +1,8 @@
 import React from 'react'
 
 import LetterCell from './Lettercell'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faShuffle } from '@fortawesome/free-solid-svg-icons'
 
 function Board({ letters, currentWord, onTileClick, submit, submittedWords, deleteFunc, shuffle, updateGameState, selectedLetters }) {
     let word = ""
@@ -56,6 +58,7 @@ function Board({ letters, currentWord, onTileClick, submit, submittedWords, dele
             </div>
             <div className='button-row'>
                 <button onClick={deleteFunc}>Delete</button>
+                <button onClick={shuffle}><FontAwesomeIcon icon={faShuffle} /></button>
                 <button onClick={submit}>Submit</button>
             </div>
         </div>
