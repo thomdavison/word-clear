@@ -9,6 +9,7 @@ function App() {
   const [currentWord, setCurrentWord] = useState("")
   const [submittedWords, setSubmittedWords] = useState([])
   const [wordSet, setWordSet] = useState([]);
+  const [answers, setAnswers] = useState([]);
   const [gameState, setGameState] = useState("board")
   const [selectedLetters, setSelectedLetters] = useState([])
 
@@ -36,8 +37,8 @@ function App() {
     generate8LetterWords().then((w) => {
       let word1 = w.words[rand(w.words.length)]
       let word2 = w.words[rand(w.words.length)]
-      console.log(word1)
-      console.log(word2)
+      console.debug(word1)
+      console.debug(word2)
 
       let word = word1 + word2
 
@@ -54,7 +55,8 @@ function App() {
       }
 
       setLetters(pickedLetters)
-      setWordSet(words)
+      setAnswers(words)
+      setWordSet(w.words)
     });
   }, [])
 
@@ -66,17 +68,61 @@ function App() {
       return
     }
 
-    if (!wordSet.includes(currentWord)) {
-      console.log("word not in dictionary")
-      return
-    }
-
 
     var pickedLetters = letters
 
     for (var i = 0; i < selectedLetters.length; i++) {
       pickedLetters[selectedLetters[i]] = ""
     }
+
+    if (!answers.includes(currentWord)) {
+      if (wordSet.includes(currentWord)) {
+        let remainingLetters = pickedLetters.filter(x => x !== "")
+
+        console.log("remaining letters:" + remainingLetters)
+
+        // if the submitted word is not in the answer list, check to see if the remaining letters can make another valid 8 letter word
+        // only need to do this check if there is another word left. if there are no remaining letters, then the game is won
+        if (remainingLetters.length === 8) {
+          let isMatch = false
+          let potentialMatch = ""
+
+          for (let i = 0; i < wordSet.length; i++) {
+            let word = wordSet[i]
+
+            console.log("checking word " + word)
+
+            for (let j = 0; j < remainingLetters.length; j++) {
+              if (!word.includes(remainingLetters[j])) {
+                console.log(word + " doesn't include:" + remainingLetters[j])
+                break
+              }
+
+              // if on the last letter and this loop isn't broken then it must be a match
+              if (j == remainingLetters.length - 1) {
+                isMatch = true
+              }
+            }
+            // if a match is found, then bomb out early
+            if (isMatch) {
+              potentialMatch = word
+              console.log("potential word found: " + word)
+              break
+            }
+          }
+
+          if (!isMatch) {
+            console.log("this is not the answer, but no other words can be submitted")
+            return
+          }
+        }
+      }
+      else {
+        console.log("word not in dictionary")
+        return
+      }
+    }
+
 
     setLetters(pickedLetters)
     setSubmittedWords([...submittedWords, currentWord])
@@ -97,8 +143,6 @@ function App() {
   }
 
   const shuffle = () => {
-
-    var centerLetter = letters[4]
 
     let shuffled = letters
       .map(value => ({ value, sort: Math.random() }))

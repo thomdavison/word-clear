@@ -58,7 +58,7 @@ function Board({ letters, currentWord, onTileClick, submit, submittedWords, dele
             </div>
             <div className='button-row'>
                 <button onClick={deleteFunc}>Delete</button>
-                <button onClick={shuffle}><FontAwesomeIcon icon={faShuffle} /></button>
+                {/* <button onClick={shuffle}><FontAwesomeIcon icon={faShuffle} /></button> */}
                 <button onClick={submit}>Submit</button>
             </div>
         </div>
