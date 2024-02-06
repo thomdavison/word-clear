@@ -79,8 +79,6 @@ function App() {
       if (wordSet.includes(currentWord)) {
         let remainingLetters = pickedLetters.filter(x => x !== "")
 
-        console.log("remaining letters:" + remainingLetters)
-
         // if the submitted word is not in the answer list, check to see if the remaining letters can make another valid 8 letter word
         // only need to do this check if there is another word left. if there are no remaining letters, then the game is won
         if (remainingLetters.length === 8) {
@@ -89,12 +87,8 @@ function App() {
 
           for (let i = 0; i < wordSet.length; i++) {
             let word = wordSet[i]
-
-            console.log("checking word " + word)
-
             for (let j = 0; j < remainingLetters.length; j++) {
               if (!word.includes(remainingLetters[j])) {
-                console.log(word + " doesn't include:" + remainingLetters[j])
                 break
               }
 
