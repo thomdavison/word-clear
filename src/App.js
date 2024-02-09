@@ -4,8 +4,10 @@ import Board from './components/Board';
 import { generate8LetterWords } from './Words';
 import HowToPlay from './components/HowToPlay';
 
-function App() {
 
+const isLoggingEnabled = false // set flag to false when deploying - probably a better way of setting this
+
+function App() {
   const [letters, setLetters] = useState([])
   const [currentWord, setCurrentWord] = useState("")
   const [submittedWords, setSubmittedWords] = useState([])
@@ -42,8 +44,8 @@ function App() {
     generate8LetterWords().then((w) => {
       let word1 = w.words[rand(w.words.length)]
       let word2 = w.words[rand(w.words.length)]
-      console.debug(word1)
-      console.debug(word2)
+      log(word1)
+      log(word2)
 
       let word = word1 + word2
 
@@ -69,12 +71,9 @@ function App() {
 
   const submit = () => {
     if (currentWord.length !== 8) {
-      console.log("current word length not 8")
+      log("current word length not 8")
       return
     }
-
-
-
 
     if (!answers.includes(currentWord)) {
       if (wordSet.includes(currentWord)) {
@@ -101,25 +100,22 @@ function App() {
             // if a match is found, then bomb out early
             if (isMatch) {
               potentialMatch = word
-              console.log("potential word found: " + word)
+              log("potential word found: " + word)
               break
             }
           }
 
           if (!isMatch) {
-            console.log("this is not the answer, but no other words can be submitted")
+            log("this is not the answer, but no other words can be submitted")
             return
           }
         }
       }
       else {
-        console.log("word not in dictionary")
+        log("word not in dictionary")
         return
       }
     }
-
-
-    console.log("setting states")
 
     var pickedLetters = letters
 
@@ -135,15 +131,15 @@ function App() {
 
   const deleteFunc = () => {
 
-    console.log(letters)
+    log(letters)
     if (currentWord === "") {
       return
     }
 
     var newletters = selectedLetters
-    console.log(newletters)
+    log(newletters)
     newletters.pop()
-    console.log(newletters)
+    log(newletters)
     setCurrentWord(currentWord.slice(0, -1))
     setSelectedLetters(newletters)
   }
@@ -175,3 +171,10 @@ function App() {
 
 }
 export default App;
+
+
+function log(message) {
+  if (isLoggingEnabled) {
+    console.log(message)
+  }
+}
