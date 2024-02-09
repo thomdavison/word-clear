@@ -1,10 +1,16 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import LetterCell from './Lettercell'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faShuffle } from '@fortawesome/free-solid-svg-icons'
+import { faCircleQuestion } from '@fortawesome/free-solid-svg-icons'
+import HowToPlay from './HowToPlay';
 
 function Board({ letters, currentWord, onTileClick, submit, submittedWords, deleteFunc, shuffle, updateGameState, selectedLetters }) {
+
+    const [modal, setModal] = useState(false);
+
+    const Toggle = () => setModal(!modal);
+
     let word = ""
 
     let words = submittedWords
@@ -57,6 +63,7 @@ function Board({ letters, currentWord, onTileClick, submit, submittedWords, dele
                 <LetterCell value={letters[15]} onClick={() => onTileClick(15)} selectedLetters={selectedLetters} index={15} />
             </div>
             <div className='button-row'>
+                <button onClick={() => updateGameState("how-to-play")}>?</button>
                 <button onClick={deleteFunc}>Delete</button>
                 {/* <button onClick={shuffle}><FontAwesomeIcon icon={faShuffle} /></button> */}
                 <button onClick={submit}>Submit</button>

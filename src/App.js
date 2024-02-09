@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import './App.css';
 import Board from './components/Board';
 import { generate8LetterWords } from './Words';
+import HowToPlay from './components/HowToPlay';
 
 function App() {
 
@@ -19,6 +20,10 @@ function App() {
   const handleTileClick = (index) => {
 
     if (selectedLetters.includes(index)) {
+      return
+    }
+
+    if (currentWord.length === 8) {
       return
     }
 
@@ -69,11 +74,7 @@ function App() {
     }
 
 
-    var pickedLetters = letters
 
-    for (var i = 0; i < selectedLetters.length; i++) {
-      pickedLetters[selectedLetters[i]] = ""
-    }
 
     if (!answers.includes(currentWord)) {
       if (wordSet.includes(currentWord)) {
@@ -83,7 +84,7 @@ function App() {
         // only need to do this check if there is another word left. if there are no remaining letters, then the game is won
         if (remainingLetters.length === 8) {
           let isMatch = false
-          let potentialMatch = ""
+          let potentialMatch
 
           for (let i = 0; i < wordSet.length; i++) {
             let word = wordSet[i]
@@ -93,7 +94,7 @@ function App() {
               }
 
               // if on the last letter and this loop isn't broken then it must be a match
-              if (j == remainingLetters.length - 1) {
+              if (j === remainingLetters.length - 1) {
                 isMatch = true
               }
             }
@@ -118,6 +119,14 @@ function App() {
     }
 
 
+    console.log("setting states")
+
+    var pickedLetters = letters
+
+    for (var i = 0; i < selectedLetters.length; i++) {
+      pickedLetters[selectedLetters[i]] = ""
+    }
+
     setLetters(pickedLetters)
     setSubmittedWords([...submittedWords, currentWord])
     setCurrentWord("")
@@ -126,24 +135,17 @@ function App() {
 
   const deleteFunc = () => {
 
+    console.log(letters)
     if (currentWord === "") {
       return
     }
 
     var newletters = selectedLetters
+    console.log(newletters)
     newletters.pop()
+    console.log(newletters)
     setCurrentWord(currentWord.slice(0, -1))
     setSelectedLetters(newletters)
-  }
-
-  const shuffle = () => {
-
-    let shuffled = letters
-      .map(value => ({ value, sort: Math.random() }))
-      .sort((a, b) => a.sort - b.sort)
-      .map(({ value }) => value)
-
-    setLetters(shuffled)
   }
 
 
@@ -154,7 +156,6 @@ function App() {
           letters={letters}
           currentWord={currentWord}
           onTileClick={handleTileClick}
-          shuffle={shuffle}
           submit={submit}
           submittedWords={submittedWords}
           deleteFunc={deleteFunc}
@@ -162,6 +163,14 @@ function App() {
           selectedLetters={selectedLetters} />
       </div>
     );
+  }
+  if (gameState === "how-to-play") {
+    return (
+      <div className="App">
+        <HowToPlay
+          updateGameState={updateGameState} />
+      </div>
+    )
   }
 
 }
