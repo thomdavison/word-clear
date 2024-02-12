@@ -3,6 +3,7 @@ import './App.css';
 import Board from './components/Board';
 import { generate8LetterWords } from './Words';
 import HowToPlay from './components/HowToPlay';
+import Win from './components/Win';
 
 
 const isLoggingEnabled = false // set flag to false when deploying - probably a better way of setting this
@@ -15,6 +16,7 @@ function App() {
   const [answers, setAnswers] = useState([]);
   const [gameState, setGameState] = useState("board")
   const [selectedLetters, setSelectedLetters] = useState([])
+  const [hasWon, setHasWon] = useState(false)
 
   let currentDate = new Date().toJSON().slice(0, 10);
   const rand = require('random-seed').create(currentDate);
@@ -22,6 +24,10 @@ function App() {
   const handleTileClick = (index) => {
 
     if (selectedLetters.includes(index)) {
+      return
+    }
+
+    if (letters[index].length > 1) {
       return
     }
 
@@ -118,9 +124,22 @@ function App() {
     }
 
     var pickedLetters = letters
+    var remainingLetters = 16
 
     for (var i = 0; i < selectedLetters.length; i++) {
-      pickedLetters[selectedLetters[i]] = ""
+      pickedLetters[selectedLetters[i]] = pickedLetters[selectedLetters[i]] + pickedLetters[selectedLetters[i]]
+    }
+
+
+    for (var i = 0; i < letters.length; i++) {
+      let letter = letters[i]
+      if (letter.length > 1) {
+        remainingLetters--;
+      }
+    }
+
+    if (remainingLetters <= 0) {
+      setHasWon(true)
     }
 
     setLetters(pickedLetters)
@@ -130,22 +149,24 @@ function App() {
   }
 
   const deleteFunc = () => {
-
-    log(letters)
     if (currentWord === "") {
       return
     }
 
     var newletters = selectedLetters
-    log(newletters)
     newletters.pop()
-    log(newletters)
     setCurrentWord(currentWord.slice(0, -1))
     setSelectedLetters(newletters)
   }
 
-
-  if (gameState === "" || gameState === "board") {
+  if (hasWon) {
+    return (
+      <div className="App">
+        <Win submittedWords={submittedWords} />
+      </div>
+    );
+  }
+  if (gameState !== "how-to-play") {
     return (
       <div className="App">
         <Board
@@ -156,7 +177,8 @@ function App() {
           submittedWords={submittedWords}
           deleteFunc={deleteFunc}
           updateGameState={updateGameState}
-          selectedLetters={selectedLetters} />
+          selectedLetters={selectedLetters}
+          hasWon={hasWon} />
       </div>
     );
   }

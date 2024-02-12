@@ -1,11 +1,8 @@
 import React, { useState } from 'react'
 
 import LetterCell from './Lettercell'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCircleQuestion } from '@fortawesome/free-solid-svg-icons'
-import HowToPlay from './HowToPlay';
 
-function Board({ letters, currentWord, onTileClick, submit, submittedWords, deleteFunc, shuffle, updateGameState, selectedLetters }) {
+function Board({ letters, currentWord, onTileClick, submit, submittedWords, deleteFunc, updateGameState, selectedLetters, hasWon }) {
 
     const [modal, setModal] = useState(false);
 
@@ -65,7 +62,6 @@ function Board({ letters, currentWord, onTileClick, submit, submittedWords, dele
             <div className='button-row'>
                 <button onClick={() => updateGameState("how-to-play")}>?</button>
                 <button onClick={deleteFunc}>Delete</button>
-                {/* <button onClick={shuffle}><FontAwesomeIcon icon={faShuffle} /></button> */}
                 <button onClick={submit}>Submit</button>
             </div>
         </div>
