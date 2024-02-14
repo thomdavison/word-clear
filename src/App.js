@@ -21,13 +21,9 @@ function App() {
   let currentDate = new Date().toJSON().slice(0, 10);
   const rand = require('random-seed').create(currentDate);
 
-  const handleTileClick = (index) => {
+  const handleTileClick = (letter) => {
 
-    if (selectedLetters.includes(index)) {
-      return
-    }
-
-    if (letters[index].length > 1) {
+    if (selectedLetters.includes(letter.id)) {
       return
     }
 
@@ -35,9 +31,11 @@ function App() {
       return
     }
 
-    setCurrentWord(currentWord + letters[index])
+    letter.isSelected = true
+
+    setCurrentWord(currentWord + letter.value)
     var sl = selectedLetters
-    sl.push(index)
+    sl.push(letter.id)
     setSelectedLetters(sl)
 
   };
@@ -63,7 +61,7 @@ function App() {
       let pickedLetters = []
 
       for (var i = 0; i < shuffledWord.length; i++) {
-        let letter = shuffledWord[i].toUpperCase()
+        let letter = { "id": crypto.randomUUID(), "value": shuffledWord[i].toUpperCase(), "isSelected": false }
         pickedLetters.push(letter)
       }
 
@@ -75,6 +73,17 @@ function App() {
 
   const shuffleFunc = str => [...str].sort(() => Math.random() - .5).join('');
 
+  const shuffle = () => {
+
+    let shuffled = letters
+      .map(value => ({ value, sort: Math.random() }))
+      .sort((a, b) => a.sort - b.sort)
+      .map(({ value }) => value)
+
+
+    setLetters(shuffled)
+  }
+
   const submit = () => {
     if (currentWord.length !== 8) {
       log("current word length not 8")
@@ -83,7 +92,7 @@ function App() {
 
     if (!answers.includes(currentWord)) {
       if (wordSet.includes(currentWord)) {
-        let remainingLetters = pickedLetters.filter(x => x !== "")
+        let remainingLetters = letters.filter(x => !x.isSelected)
 
         // if the submitted word is not in the answer list, check to see if the remaining letters can make another valid 8 letter word
         // only need to do this check if there is another word left. if there are no remaining letters, then the game is won
@@ -123,26 +132,12 @@ function App() {
       }
     }
 
-    var pickedLetters = letters
-    var remainingLetters = 16
-
-    for (var i = 0; i < selectedLetters.length; i++) {
-      pickedLetters[selectedLetters[i]] = pickedLetters[selectedLetters[i]] + pickedLetters[selectedLetters[i]]
-    }
-
-
-    for (var i = 0; i < letters.length; i++) {
-      let letter = letters[i]
-      if (letter.length > 1) {
-        remainingLetters--;
-      }
-    }
-
-    if (remainingLetters <= 0) {
+    var newLetters = letters.filter(x => !x.isSelected)
+    if (newLetters <= 0) {
       setHasWon(true)
     }
 
-    setLetters(pickedLetters)
+    setLetters(newLetters)
     setSubmittedWords([...submittedWords, currentWord])
     setCurrentWord("")
     setSelectedLetters([])
@@ -152,6 +147,10 @@ function App() {
     if (currentWord === "") {
       return
     }
+
+    var id = selectedLetters[selectedLetters.length - 1]
+    var letter = letters.find(x => x.id === id)
+    letter.isSelected = false
 
     var newletters = selectedLetters
     newletters.pop()
@@ -178,7 +177,8 @@ function App() {
           deleteFunc={deleteFunc}
           updateGameState={updateGameState}
           selectedLetters={selectedLetters}
-          hasWon={hasWon} />
+          hasWon={hasWon}
+          shuffleFunc={shuffle} />
       </div>
     );
   }

@@ -38,12 +38,8 @@
   }
 }
 
-.circle,
-.circle-selected {
-  border-radius: 50%;
-  border: 12px solid #FFFFFF;
-  color: black;
-  background-color: #FFFFFF;
+.letter,
+.letter-selected {
   height: 60px;
   width: 60px;
   text-align: center;
@@ -53,8 +49,9 @@
   cursor: pointer;
 }
 
-.circle:hover {
-  background-color: #ffd4a1;
+.letter:hover {
+  /* background-color: #ffd4a1; */
+  color: darkorange;
 }
 
 
@@ -88,7 +85,6 @@
   padding: 40px;
 }
 
-
 #selected-letter {
   color: darkorange;
 }
@@ -120,7 +116,24 @@ button {
   align-items: center;
   padding: 15px 0;
   width: 5.5em;
-  min-width: 5.5em;
+  min-width: 3em;
+  height: 3em;
+  background-color: white;
+  font-size: 1em;
+  margin: 0 8px;
+  color: black;
+  border: 1px solid darkgray;
+  border-radius: 2.5em;
+  letter-spacing: 0.01em;
+}
+
+#help-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 15px 0;
+  width: 3.5em;
+  min-width: 3em;
   height: 3em;
   background-color: white;
   font-size: 1em;
@@ -142,22 +155,6 @@ button:active {
 
 :focus {
   outline: none !important;
-}
-
-.allSubmittedWordsContainer {
-  display: flex;
-  height: 340px;
-  width: 50%;
-  margin: auto;
-  padding-top: 10px;
-}
-
-.allSubmittedWords {
-  display: grid;
-  grid-auto-flow: column;
-  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-  grid-template-rows: 20px 20px 20px 20px 20px 20px 20px 20px 20px 20px 20px 20px 20px 20px 20px;
-  ;
 }
 
 .helpContainer {
@@ -199,4 +196,11 @@ button:active {
 .how-to-play-list {
   display: flex;
   justify-content: center;
+}
+
+ul {
+  display: grid;
+  grid-template-columns: 80px 80px 80px 80px;
+  grid-template-rows: 80px 80px 80px 80px;
+  grid-column-gap: 5px;
 }
