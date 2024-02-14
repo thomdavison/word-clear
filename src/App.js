@@ -6,7 +6,7 @@ import HowToPlay from './components/HowToPlay';
 import Win from './components/Win';
 
 
-const isLoggingEnabled = false // set flag to false when deploying - probably a better way of setting this
+const isLoggingEnabled = true // set flag to false when deploying - probably a better way of setting this
 
 function App() {
   const [letters, setLetters] = useState([])
@@ -17,26 +17,27 @@ function App() {
   const [gameState, setGameState] = useState("board")
   const [selectedLetters, setSelectedLetters] = useState([])
   const [hasWon, setHasWon] = useState(false)
+  const [submittedInvalidWord, setSubmittedInvalidWord] = useState(false)
 
   let currentDate = new Date().toJSON().slice(0, 10);
   const rand = require('random-seed').create(currentDate);
 
   const handleTileClick = (letter) => {
-
     if (selectedLetters.includes(letter.id)) {
+      setSubmittedInvalidWord(!submittedInvalidWord)
       return
     }
 
     if (currentWord.length === 8) {
+      setSubmittedInvalidWord(!submittedInvalidWord)
       return
     }
 
     letter.isSelected = true
 
     setCurrentWord(currentWord + letter.value)
-    var sl = selectedLetters
-    sl.push(letter.id)
-    setSelectedLetters(sl)
+    selectedLetters.push(letter.id)
+    setSelectedLetters(selectedLetters)
 
   };
 
@@ -58,14 +59,14 @@ function App() {
       let shuffledWord = shuffleFunc(word)
       let words = [word1, word2]
 
-      let pickedLetters = []
+      let generatedLetters = []
 
       for (var i = 0; i < shuffledWord.length; i++) {
         let letter = { "id": crypto.randomUUID(), "value": shuffledWord[i].toUpperCase(), "isSelected": false }
-        pickedLetters.push(letter)
+        generatedLetters.push(letter)
       }
 
-      setLetters(pickedLetters)
+      setLetters(generatedLetters)
       setAnswers(words)
       setWordSet(w.words)
     });
@@ -87,6 +88,7 @@ function App() {
   const submit = () => {
     if (currentWord.length !== 8) {
       log("current word length not 8")
+      setSubmittedInvalidWord(!submittedInvalidWord)
       return
     }
 
@@ -98,7 +100,6 @@ function App() {
         // only need to do this check if there is another word left. if there are no remaining letters, then the game is won
         if (remainingLetters.length === 8) {
           let isMatch = false
-          let potentialMatch
 
           for (let i = 0; i < wordSet.length; i++) {
             let word = wordSet[i]
@@ -114,7 +115,6 @@ function App() {
             }
             // if a match is found, then bomb out early
             if (isMatch) {
-              potentialMatch = word
               log("potential word found: " + word)
               break
             }
@@ -122,12 +122,14 @@ function App() {
 
           if (!isMatch) {
             log("this is not the answer, but no other words can be submitted")
+            setSubmittedInvalidWord(!submittedInvalidWord)
             return
           }
         }
       }
       else {
         log("word not in dictionary")
+        setSubmittedInvalidWord(!submittedInvalidWord)
         return
       }
     }
@@ -173,12 +175,10 @@ function App() {
           currentWord={currentWord}
           onTileClick={handleTileClick}
           submit={submit}
-          submittedWords={submittedWords}
           deleteFunc={deleteFunc}
           updateGameState={updateGameState}
-          selectedLetters={selectedLetters}
-          hasWon={hasWon}
-          shuffleFunc={shuffle} />
+          shuffleFunc={shuffle}
+          submittedInvalidWord={submittedInvalidWord} />
       </div>
     );
   }

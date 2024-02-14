@@ -4,7 +4,9 @@ import { motion } from "framer-motion"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faShuffle } from '@fortawesome/free-solid-svg-icons'
 
-function Board({ letters, currentWord, onTileClick, submit, submittedWords, deleteFunc, updateGameState, selectedLetters, hasWon, shuffleFunc }) {
+function Board({ letters, currentWord, onTileClick, submit, deleteFunc, updateGameState, shuffleFunc, submittedInvalidWord }) {
+    const [move, setMove] = useState(false)
+    const [isComplete, setIsComplete] = useState(false)
 
     const spring = {
         type: "spring",
@@ -12,10 +14,17 @@ function Board({ letters, currentWord, onTileClick, submit, submittedWords, dele
         stiffness: 120
     };
 
+    console.log(submittedInvalidWord)
+
     return (
         <div>
             <div className='currentWord'>
-                <h1>{currentWord}</h1>
+                <motion.h1
+                    animate={{ x: submittedInvalidWord ? 1 : -1 }}
+                    transition={{ type: "spring", bounce: 10 }}
+                    onClick={() => {
+                        setMove(!move)
+                    }}>{currentWord}</motion.h1>
             </div>
             <div className='row'>
                 <ul>
@@ -29,10 +38,9 @@ function Board({ letters, currentWord, onTileClick, submit, submittedWords, dele
                 <button id="help-button" onClick={() => updateGameState("how-to-play")}>?</button>
                 <button id="help-button" onClick={shuffleFunc}><FontAwesomeIcon icon={faShuffle} /></button>
                 <button onClick={deleteFunc}>Delete</button>
-
                 <button onClick={submit}>Submit</button>
             </div>
-        </div>
+        </div >
 
     )
 }

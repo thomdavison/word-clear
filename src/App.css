@@ -65,17 +65,12 @@
   height: 60px;
 }
 
-.submittedWords {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 50px;
-}
 
 .row {
   display: flex;
   align-items: center;
   justify-content: center;
+  text-align: center;
 }
 
 .button-row {
@@ -91,23 +86,6 @@
 
 #used-letter {
   color: lightgray;
-}
-
-.score {
-  display: flex;
-  color: darkorange;
-  padding: 0px;
-  height: 50px;
-  justify-content: center;
-  align-items: center;
-}
-
-.rank {
-  display: flex;
-  padding: 0px;
-  font-weight: bold;
-  justify-content: center;
-  align-items: center;
 }
 
 button {
@@ -157,34 +135,6 @@ button:active {
   outline: none !important;
 }
 
-.helpContainer {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-
-.help {
-  position: fixed;
-  left: 15%;
-  width: 70%;
-  height: 70%;
-  background: rgba(0, 0, 0, 0.6);
-  justify-content: center;
-  margin: auto;
-
-}
-
-.help-main {
-  position: flex;
-  background: white;
-  width: 80%;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
 .display-block {
   display: block;
 }
@@ -193,14 +143,13 @@ button:active {
   display: none;
 }
 
-.how-to-play-list {
-  display: flex;
-  justify-content: center;
-}
 
 ul {
   display: grid;
   grid-template-columns: 80px 80px 80px 80px;
   grid-template-rows: 80px 80px 80px 80px;
   grid-column-gap: 5px;
+  padding-left: 20px;
+  text-align: center;
+  align-items: center;
 }
