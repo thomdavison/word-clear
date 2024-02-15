@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/word-clear/static/css/main.d8c7ffac.css",
-    "main.js": "/word-clear/static/js/main.b54fac83.js",
+    "main.js": "/word-clear/static/js/main.8620db27.js",
     "static/media/8_letter_words.txt": "/word-clear/static/media/8_letter_words.9f5e29794475bd1e3d84.txt",
     "index.html": "/word-clear/index.html",
     "main.d8c7ffac.css.map": "/word-clear/static/css/main.d8c7ffac.css.map",
-    "main.b54fac83.js.map": "/word-clear/static/js/main.b54fac83.js.map"
+    "main.8620db27.js.map": "/word-clear/static/js/main.8620db27.js.map"
   },
   "entrypoints": [
     "static/css/main.d8c7ffac.css",
-    "static/js/main.b54fac83.js"
+    "static/js/main.8620db27.js"
   ]
 }
