@@ -14,8 +14,6 @@ function Board({ letters, currentWord, onTileClick, submit, deleteFunc, updateGa
         stiffness: 120
     };
 
-    console.log(submittedInvalidWord)
-
     return (
         <div>
             <div className='currentWord'>

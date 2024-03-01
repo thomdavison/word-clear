@@ -6,7 +6,7 @@ import HowToPlay from './components/HowToPlay';
 import Win from './components/Win';
 
 
-const isLoggingEnabled = true // set flag to false when deploying - probably a better way of setting this
+const isLoggingEnabled = false // set flag to false when deploying - probably a better way of setting this
 
 function App() {
   const [letters, setLetters] = useState([])

@@ -15,6 +15,7 @@ function HowToPlay({ updateGameState }) {
                 <h2>Find the scrambled words.</h2>
 
                 <h4>Words must be 8 letters long.</h4>
+                <h4>Words must not be a plural.</h4>
                 <h4>Letters can only be used once.</h4>
                 <h4>Use all letters to solve.</h4>
 
