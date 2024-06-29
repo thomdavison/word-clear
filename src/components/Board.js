@@ -34,7 +34,7 @@ function Board({
     return (
       <div>
         <div className="row">
-          <ul>
+          <ul id="ul-dry-run">
             {letters.map((letter) => (
               <motion.h1
                 id={letter.isSelected ? "selected-letter" : ""}

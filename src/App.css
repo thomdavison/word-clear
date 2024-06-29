@@ -171,3 +171,13 @@ ul {
   text-align: center;
   align-items: center;
 }
+
+#ul-dry-run {
+  display: grid;
+  grid-template-columns: 80px 80px 80px 80px;
+  grid-template-rows: 80px 80px 80px 80px;
+  grid-column-gap: 5px;
+  padding-left: 0px;
+  text-align: center;
+  align-items: center;
+}
