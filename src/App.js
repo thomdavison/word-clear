@@ -5,8 +5,10 @@ import { generate8LetterWords } from "./Words";
 import HowToPlay from "./components/HowToPlay";
 import Win from "./components/Win";
 import axios from "axios";
+import YesterdaysAnswer from "./components/YesterdaysAnswer";
 
 const isLoggingEnabled = false; // set flag to false when deploying - theres probably a better way of setting this
+const shouldPostAnalytics = true; // set flag to true when deploying - again probably a better way of controlling this value
 
 function App() {
   const [letters, setLetters] = useState([]);
@@ -14,6 +16,7 @@ function App() {
   const [submittedWords, setSubmittedWords] = useState([]);
   const [wordSet, setWordSet] = useState([]);
   const [answers, setAnswers] = useState([]);
+  const [yesterdaysAnswers, setYesterdaysAnswers] = useState([]);
   const [gameState, setGameState] = useState("board");
   const [selectedLetters, setSelectedLetters] = useState([]);
   const [hasWon, setHasWon] = useState(false);
@@ -21,7 +24,7 @@ function App() {
   const [hasSubmittedAnalytics, setHasSubmittedAnalytics] = useState(false);
 
   let currentDate = new Date().toJSON().slice(0, 10);
-  const rand = require("random-seed").create(currentDate);
+  let rand = require("random-seed").create(currentDate);
 
   async function analytics() {
     if (!hasSubmittedAnalytics) {
@@ -39,12 +42,14 @@ function App() {
   }
 
   useEffect(() => {
-    async function postAnalytics() {
-      if (!hasSubmittedAnalytics) {
-        const data = await analytics();
+    if (shouldPostAnalytics) {
+      async function postAnalytics() {
+        if (!hasSubmittedAnalytics) {
+          const data = await analytics();
+        }
       }
+      postAnalytics();
     }
-    postAnalytics();
   });
 
   const handleTileClick = (letter) => {
@@ -97,6 +102,19 @@ function App() {
       setLetters(generatedLetters);
       setAnswers(words);
       setWordSet(w.words);
+    });
+  }, []);
+
+  useEffect(() => {
+    let yesterdaysDate = new Date();
+    yesterdaysDate.setDate(yesterdaysDate.getDate() - 1);
+    let yesterdaysDateJson = yesterdaysDate.toJSON().slice(0, 10);
+    let rand = require("random-seed").create(yesterdaysDateJson);
+    generate8LetterWords().then((w) => {
+      let word1 = w.words[rand(w.words.length)].trim();
+      let word2 = w.words[rand(w.words.length)].trim();
+      let words = [word1, word2];
+      setYesterdaysAnswers(words);
     });
   }, []);
 
@@ -171,6 +189,15 @@ function App() {
     setSelectedLetters([]);
   };
 
+  const restartFunc = () => {
+    if (currentWord === "") {
+      return;
+    }
+    letters.forEach((x) => (x.isSelected = false));
+    setCurrentWord("");
+    setSelectedLetters([]);
+  };
+
   const deleteFunc = () => {
     if (currentWord === "") {
       return;
@@ -193,7 +220,22 @@ function App() {
       </div>
     );
   }
-  if (gameState !== "how-to-play") {
+  if (gameState === "how-to-play") {
+    return (
+      <div className="App">
+        <HowToPlay updateGameState={updateGameState} />
+      </div>
+    );
+  } else if (gameState === "yesterdays-answer") {
+    return (
+      <div className="App">
+        <YesterdaysAnswer
+          updateGameState={updateGameState}
+          yesterdaysAnswers={yesterdaysAnswers}
+        />
+      </div>
+    );
+  } else {
     return (
       <div className="App">
         <Board
@@ -202,17 +244,11 @@ function App() {
           onTileClick={handleTileClick}
           submit={submit}
           deleteFunc={deleteFunc}
+          restartFunc={restartFunc}
           updateGameState={updateGameState}
           shuffleFunc={shuffle}
           submittedInvalidWord={submittedInvalidWord}
         />
-      </div>
-    );
-  }
-  if (gameState === "how-to-play") {
-    return (
-      <div className="App">
-        <HowToPlay updateGameState={updateGameState} />
       </div>
     );
   }
