@@ -17,6 +17,7 @@ function App() {
   const [wordSet, setWordSet] = useState([]);
   const [answers, setAnswers] = useState([]);
   const [yesterdaysAnswers, setYesterdaysAnswers] = useState([]);
+  const [yesterdaysLetters, setYesterdaysLetters] = useState([]);
   const [gameState, setGameState] = useState("board");
   const [selectedLetters, setSelectedLetters] = useState([]);
   const [hasWon, setHasWon] = useState(false);
@@ -114,6 +115,22 @@ function App() {
       let word1 = w.words[rand(w.words.length)].trim();
       let word2 = w.words[rand(w.words.length)].trim();
       let words = [word1, word2];
+      let word = word1 + word2;
+
+      let shuffledWord = shuffleFunc(word);
+      let generatedLetters = [];
+
+      for (var i = 0; i < shuffledWord.length; i++) {
+        let letter = {
+          id: crypto.randomUUID(),
+          value: shuffledWord[i].toUpperCase(),
+          isSelected: false,
+        };
+        generatedLetters.push(letter);
+      }
+
+      setYesterdaysLetters(generatedLetters);
+
       setYesterdaysAnswers(words);
     });
   }, []);
@@ -232,6 +249,7 @@ function App() {
         <YesterdaysAnswer
           updateGameState={updateGameState}
           yesterdaysAnswers={yesterdaysAnswers}
+          yesterdaysLetters={yesterdaysLetters}
         />
       </div>
     );

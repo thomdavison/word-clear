@@ -19,6 +19,7 @@ function Board({
   updateGameState,
   shuffleFunc,
   submittedInvalidWord,
+  isDryRun,
 }) {
   const [move, setMove] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
@@ -29,65 +30,86 @@ function Board({
     stiffness: 120,
   };
 
-  return (
-    <div>
-      <div className="button-row-header">
-        <button
-          id="header-button"
-          onClick={() => updateGameState("how-to-play")}
-        >
-          ?
-        </button>
-        <button
-          id="header-button"
-          onClick={() => updateGameState("yesterdays-answer")}
-        >
-          <FontAwesomeIcon icon={faClockRotateLeft} />
-        </button>
+  if (isDryRun) {
+    return (
+      <div>
+        <div className="row">
+          <ul>
+            {letters.map((letter) => (
+              <motion.h1
+                id={letter.isSelected ? "selected-letter" : ""}
+                className="letter-dry-run"
+                key={letter.id}
+                layout
+              >
+                {" "}
+                {letter.value}
+              </motion.h1>
+            ))}
+          </ul>
+        </div>
       </div>
-      <div className="currentWord">
-        <motion.h1
-          animate={{ x: submittedInvalidWord ? 1 : -1 }}
-          transition={{ type: "spring", bounce: 10 }}
-          onClick={() => {
-            setMove(!move);
-          }}
-        >
-          {currentWord}
-        </motion.h1>
+    );
+  } else {
+    return (
+      <div>
+        <div className="button-row-header">
+          <button
+            id="header-button"
+            onClick={() => updateGameState("how-to-play")}
+          >
+            ?
+          </button>
+          <button
+            id="header-button"
+            onClick={() => updateGameState("yesterdays-answer")}
+          >
+            <FontAwesomeIcon icon={faClockRotateLeft} />
+          </button>
+        </div>
+        <div className="currentWord">
+          <motion.h1
+            animate={{ x: submittedInvalidWord ? 1 : -1 }}
+            transition={{ type: "spring", bounce: 10 }}
+            onClick={() => {
+              setMove(!move);
+            }}
+          >
+            {currentWord}
+          </motion.h1>
+        </div>
+        <div className="row">
+          <ul>
+            {letters.map((letter) => (
+              <motion.h1
+                id={letter.isSelected ? "selected-letter" : ""}
+                className="letter"
+                key={letter.id}
+                layout
+                transition={spring}
+                onClick={() => onTileClick(letter)}
+              >
+                {" "}
+                {letter.value}
+              </motion.h1>
+            ))}
+          </ul>
+        </div>
+        <div className="button-row">
+          <button id="help-button" onClick={restartFunc}>
+            <FontAwesomeIcon icon={faTrash} />
+          </button>
+          <button id="help-button" onClick={deleteFunc}>
+            <FontAwesomeIcon icon={faDeleteLeft} />
+          </button>
+          <button id="help-button" onClick={shuffleFunc}>
+            <FontAwesomeIcon icon={faShuffle} />
+          </button>
+          <button onClick={submit}>Submit</button>
+        </div>
       </div>
-      <div className="row">
-        <ul>
-          {letters.map((letter) => (
-            <motion.h1
-              id={letter.isSelected ? "selected-letter" : ""}
-              className="letter"
-              key={letter.id}
-              layout
-              transition={spring}
-              onClick={() => onTileClick(letter)}
-            >
-              {" "}
-              {letter.value}
-            </motion.h1>
-          ))}
-        </ul>
-      </div>
-
-      <div className="button-row">
-        <button id="help-button" onClick={restartFunc}>
-          <FontAwesomeIcon icon={faTrash} />
-        </button>
-        <button id="help-button" onClick={deleteFunc}>
-          <FontAwesomeIcon icon={faDeleteLeft} />
-        </button>
-        <button id="help-button" onClick={shuffleFunc}>
-          <FontAwesomeIcon icon={faShuffle} />
-        </button>
-        <button onClick={submit}>Submit</button>
-      </div>
-    </div>
-  );
+    );
+  }
 }
 
 export default Board;

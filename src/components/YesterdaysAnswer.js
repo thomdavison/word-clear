@@ -1,6 +1,11 @@
 import React from "react";
+import Board from "./Board";
 
-function YesterdaysAnswer({ updateGameState, yesterdaysAnswers }) {
+function YesterdaysAnswer({
+  updateGameState,
+  yesterdaysAnswers,
+  yesterdaysLetters,
+}) {
   return (
     <div>
       <div>
@@ -12,6 +17,8 @@ function YesterdaysAnswer({ updateGameState, yesterdaysAnswers }) {
           {yesterdaysAnswers[0]} - {yesterdaysAnswers[1]}
         </h3>
       </div>
+
+      <Board letters={yesterdaysLetters} isDryRun={true} />
 
       <div className="button-row">
         <button onClick={() => updateGameState("")}>Play</button>
