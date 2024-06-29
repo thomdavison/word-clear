@@ -8,7 +8,7 @@ import axios from "axios";
 import YesterdaysAnswer from "./components/YesterdaysAnswer";
 
 const isLoggingEnabled = false; // set flag to false when deploying - theres probably a better way of setting this
-const shouldPostAnalytics = true; // set flag to true when deploying - again probably a better way of controlling this value
+const shouldPostAnalytics = false; // set flag to true when deploying - again probably a better way of controlling this value
 
 function App() {
   const [letters, setLetters] = useState([]);
@@ -117,19 +117,25 @@ function App() {
       let words = [word1, word2];
       let word = word1 + word2;
 
-      let shuffledWord = shuffleFunc(word);
+      // let shuffledWord = shuffleFunc(word);
       let generatedLetters = [];
 
-      for (var i = 0; i < shuffledWord.length; i++) {
+      for (var i = 0; i < word.length; i++) {
         let letter = {
           id: crypto.randomUUID(),
-          value: shuffledWord[i].toUpperCase(),
+          value: word[i].toUpperCase(),
           isSelected: false,
+          isWord1: i < 8,
         };
         generatedLetters.push(letter);
       }
 
-      setYesterdaysLetters(generatedLetters);
+      let shuffled = generatedLetters
+        .map((value) => ({ value, sort: Math.random() }))
+        .sort((a, b) => a.sort - b.sort)
+        .map(({ value }) => value);
+
+      setYesterdaysLetters(shuffled);
 
       setYesterdaysAnswers(words);
     });

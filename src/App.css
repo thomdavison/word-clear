@@ -93,6 +93,14 @@
   color: darkorange;
 }
 
+#word1 {
+  color: darkorange;
+}
+
+#word2 {
+  color: lightcoral;
+}
+
 #used-letter {
   color: lightgray;
 }

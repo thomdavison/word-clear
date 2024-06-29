@@ -37,7 +37,7 @@ function Board({
           <ul id="ul-dry-run">
             {letters.map((letter) => (
               <motion.h1
-                id={letter.isSelected ? "selected-letter" : ""}
+                id={letter.isWord1 ? "word1" : "word2"}
                 className="letter-dry-run"
                 key={letter.id}
                 layout

@@ -14,7 +14,8 @@ function YesterdaysAnswer({
 
       <div>
         <h3>
-          {yesterdaysAnswers[0]} - {yesterdaysAnswers[1]}
+          <span id="word1">{yesterdaysAnswers[0]}</span> -{" "}
+          <span id="word2">{yesterdaysAnswers[1]}</span>
         </h3>
       </div>
 
