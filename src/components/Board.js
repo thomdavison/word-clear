@@ -6,8 +6,8 @@ import {
   faShuffle,
   faDeleteLeft,
   faTrash,
-  faClockRotateLeft,
 } from "@fortawesome/free-solid-svg-icons";
+import Navbar from "./Navbar";
 
 function Board({
   letters,
@@ -53,20 +53,8 @@ function Board({
   } else {
     return (
       <div>
-        <div className="button-row-header">
-          <button
-            id="header-button"
-            onClick={() => updateGameState("how-to-play")}
-          >
-            ?
-          </button>
-          <button
-            id="header-button"
-            onClick={() => updateGameState("yesterdays-answer")}
-          >
-            <FontAwesomeIcon icon={faClockRotateLeft} />
-          </button>
-        </div>
+        <Navbar id={0} updateGameState={updateGameState} />
+
         <div className="currentWord">
           <motion.h1
             animate={{ x: submittedInvalidWord ? 1 : -1 }}

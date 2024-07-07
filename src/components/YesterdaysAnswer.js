@@ -1,5 +1,6 @@
 import React from "react";
 import Board from "./Board";
+import Navbar from "./Navbar";
 
 function YesterdaysAnswer({
   updateGameState,
@@ -8,8 +9,9 @@ function YesterdaysAnswer({
 }) {
   return (
     <div>
+      <Navbar id={2} updateGameState={updateGameState} />
       <div>
-        <h1>Yesterdays Solution</h1>
+        <h1>Yesterday's Solution</h1>
       </div>
 
       <div>
@@ -20,10 +22,6 @@ function YesterdaysAnswer({
       </div>
 
       <Board letters={yesterdaysLetters} isDryRun={true} />
-
-      <div className="button-row">
-        <button onClick={() => updateGameState("")}>Play</button>
-      </div>
     </div>
   );
 }

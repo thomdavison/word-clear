@@ -1,8 +1,11 @@
 import React from "react";
+import Navbar from "./Navbar";
 
 function HowToPlay({ updateGameState }) {
   return (
     <div>
+      <Navbar id={1} updateGameState={updateGameState} />
+
       <div className="help-header">
         <div className="help-title">
           <h1>How To Play</h1>
@@ -17,10 +20,6 @@ function HowToPlay({ updateGameState }) {
         <h4>Must be 8 letters long.</h4>
         <h4>Must not be a plural.</h4>
         <h4>Remaining letters meet the above.</h4>
-      </div>
-
-      <div className="button-row">
-        <button onClick={() => updateGameState("")}>Play</button>
       </div>
     </div>
   );
